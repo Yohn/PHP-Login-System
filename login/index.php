@@ -7,6 +7,9 @@ check_logged_out();
 echo APP_PATH.'<BR>';
 echo getcwd();
 file_put_contents(APP_PRIVATE_PATH.'/logs/PDOErrors.txt', 'e->getMessage()\n', FILE_APPEND);
+if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+  echo "<br>IP : ".$_SERVER["REMOTE_ADDR"];}
+
 ?>
 
 
