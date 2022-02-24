@@ -30,7 +30,10 @@ check_remember_me();
 
     <link rel="stylesheet" href="../assets/vendor/bootstrap-4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/vendor/fontawesome-5.12.0/css/all.min.css">
- 
+
+    <link rel="stylesheet" href="../assets/vendor/theme/theme/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="../assets/vendor/theme/theme/usebootstrap.css">
+
     <!-- Custom styles -->
     <link rel="stylesheet" href="../assets/css/app.css">
     <link rel="stylesheet" href="custom.css" >
