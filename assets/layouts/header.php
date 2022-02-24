@@ -38,6 +38,9 @@ check_remember_me();
     <link rel="stylesheet" href="../assets/css/app.css">
     <link rel="stylesheet" href="custom.css" >
 
+<!--  Ckeditor or other header stuff -->
+<?php if(!empty($css)){echo $css;} ?>
+
 </head>
 
 <body>
