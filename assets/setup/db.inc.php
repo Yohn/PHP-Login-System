@@ -11,12 +11,12 @@ if (!$conn)
 }
 
 try {
-     $dbh = new PDO("mysql:host=localhost;dbname=klik_loginsystem", "root", "1234");
+     $dbh = new PDO("mysql:host=".DB_HOST."; dbname = ".DB_DATABASE, DB_USERNAME, DB_PASSWORD);
      $dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
      # $dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT );
      # $dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 }
 catch(PDOException $e) {
      echo $e->getMessage();
-     file_put_contents('PDOErrors.txt', $e->getMessage(), FILE_APPEND);
+     file_put_contents(APP_PRIVATE_PATH.'/PDOErrors.txt', $e->getMessage(), FILE_APPEND);
 }

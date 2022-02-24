@@ -5,7 +5,9 @@ if (!defined('APP_ORGANIZATION'))               define('APP_ORGANIZATION', 'KLiK
 if (!defined('APP_OWNER'))                      define('APP_OWNER', 'msaad1999');
 if (!defined('APP_DESCRIPTION'))                define('APP_DESCRIPTION', 'Embeddable PHP Login System');
 if (!defined('APP_URL'))                        define('APP_URL', 'https://www.example.com');
-if (!defined('APP_PATH'))                       define('APP_PATH', 'C:/Xampp/htdocs'); //No slashes on end
+if (!defined('APP_PATH'))                       define('APP_PATH', 'E:/xampp/htdocs'); //No slashes on end
+
+if (!defined('APP_PRIVATE_PATH'))               define('APP_PRIVATE_PATH', 'E:/xampp/private'); //No slashes on end
 
 if (!defined('ALLOWED_INACTIVITY_TIME'))        define('ALLOWED_INACTIVITY_TIME', time()+1*60);
 
