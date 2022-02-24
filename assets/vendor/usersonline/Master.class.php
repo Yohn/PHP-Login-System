@@ -68,7 +68,7 @@ class Master {
 				$this->ip=$this->getIP();
     }
 		public function setnumberOfUsers() {
-				$timer=time()-900;
+				$timer=time()-$this->timeoutSeconds;
 				$this->numberOfUsers = $this->dbh->query('select count(*) from usersonline WHERE timestamp > '.$timer.' ')->fetchColumn();
 				return $this->numberOfUsers;
     }
@@ -179,7 +179,7 @@ class Master {
   }
 
 
-	public function file_write_contents($file_name="/home/jesusforums/cache/log.php",$contents=false)
+	public function file_write_contents($file_name,$contents=false)
 	{
 	  if($contents){
 	    $myfile = fopen($file_name, 'w') or die('Cannot open file: '.$file_name);
@@ -225,29 +225,20 @@ class Master {
 	public function inspect($str) {
   if($str==""){return false;}
 
-      $hack = false;
-
-      // Declare possible Scripts
-      $script = array(
-        '<'
-        ,'&lt;'
-        ,'&le;'
-        ,'url='
-        ,'url ='
-        ,'viagra'
-        ,'http:'
-        ,'https:'
-      );
-
-      foreach($script as $s) {
-        if(preg_match("/$s/i", $str)) {
-          $hack = '[SCRIPT]'.$hack;
-          break;
-        }
-      }
-
-      // return false or hack string type?
-      return $hack;
+	$find = array(
+			"/[\r\n]/",
+			"/%0[A-B]/",
+			"/%0[a-b]/",
+			"/bcc\:/i",
+			"/Content\-Type\:/i",
+			"/Mime\-Version\:/i",
+			"/cc\:/i",
+			"/from\:/i",
+			"/to\:/i",
+			"/Content\-Transfer\-Encoding\:/i"
+	);
+	$ret = preg_replace($find, "", $str);
+	return $ret;
   }
 
 
