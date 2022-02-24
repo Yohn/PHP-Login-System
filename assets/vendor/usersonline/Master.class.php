@@ -349,6 +349,7 @@ class Master {
 				 $this->write_log($e->errorInfo());
 				 $this->setErrorText( $e->errorInfo());
 		}
+		return $this->dbh;
 	}
 
 	protected function query($stm, $values = array())
@@ -362,16 +363,38 @@ class Master {
 
 
 	 ///////////////////////////////////////////////////////////////////////////
+	 /*	$stmt->rowCount()
+	 -1 - Query returned an error. Redundant if there is already error handling for execute()
+	  0 - No records updated on UPDATE, no rows matched the WHERE clause or no query been executed; just rows matched if PDO::MYSQL_ATTR_FOUND_ROWS => true
+	  1 - Greater than 0 - Returns number of rows affected;
+
+		$table='';
+		$index_field='';
+		$index_value='';
+		$field_to_update='';
+		$data_to_update='';
+		$err=$ol->update_fieldPDO($table,$index_field,$index_value,$field_to_update,$data_to_update);
+
+
+	 */
 	 ///////////////////////////////////////////////////////////////////////////
 public function update_fieldPDO($table,$index_field,$index_value,$field_to_update,$data_to_update){
 		 $table=trim($table);$index_field=trim($index_field);$index_value=trim($index_value);$field_to_update=trim($field_to_update);$data_to_update=trim($data_to_update);
 	   $sql = "UPDATE $table SET $field_to_update=? WHERE ".$index_field."=?";
 	   $stmt= $this->dbh->prepare($sql);
-	   $executed = $stmt->execute([$data_to_update, $index_value]);
-	   if($executed){return true;}else{return false;}
-	 return false;
+	   $stmt->execute([$data_to_update, $index_value]);
+	   return $stmt->rowCount();
 	 }
 	 ///////////////////////////////////////////////////////////////////////////
+/*
+$table='';
+$index_field='';
+$index_value='';
+$field_to_update='';
+$data_to_update='';
+$err=$ol->update_fieldPDO($table,$index_field,$index_value,$field_to_update,$data_to_update);
+
+*/
 	 ///////////////////////////////////////////////////////////////////////////
 public function get_fieldPDO($table,$search_field,$search_value,$return_field){
 		 $table=trim($table);$search_field=trim($search_field);$search_text=trim($search_text);$return_field=trim($return_field);
@@ -386,11 +409,21 @@ public function get_fieldPDO($table,$search_field,$search_value,$return_field){
 	 return false;
 	 }
 	 ///////////////////////////////////////////////////////////////////////////
+	 /*
+	 false if nothing found
+	 array() returns assoc array
+
+	 $table='';
+	 $search_field'';
+	 $search_text='';
+	 $err=$ol->get_arrayPDO($table,$search_field,$search_text);
+
+	 */
 	 ///////////////////////////////////////////////////////////////////////////
 public function get_arrayPDO($table,$search_field,$search_text){
 		 $table=trim($table);$search_field=trim($search_field);$search_text=trim($search_text);
 	   $query='SELECT * FROM '.$table.' WHERE `'.$search_field.'` LIKE :'.$search_field;
-	   echo '  '.$query;
+	   //echo '  '.$query;
 	   $stmt = $this->dbh->prepare($query);
 	   $stmt->bindParam($search_field, $search_text , PDO::PARAM_STR, 64);
 	   $stmt->execute();
@@ -400,8 +433,27 @@ public function get_arrayPDO($table,$search_field,$search_text){
 	    }//end while
 	 return false;
 	 }
+	 ///////////////////////////////////////////////////////////////////////////
+	 /*
+	 false if nothing found
+	 array() returns assoc array
 
+	 $table='';
+	 $search_field'';
+	 $search_text='';
+	 $err=$ol->delete_itPDO($table,$search_field,$search_text);
 
+	 */
+	 ///////////////////////////////////////////////////////////////////////////
+public function delete_itPDO($table,$search_field,$search_text){
+	$table=trim($table);$search_field=trim($search_field);$search_text=trim($search_text);
+	$query='DELETE FROM '.$table.' WHERE `'.$search_field.'` = :'.$search_field;
+	$stmt = $this->dbh->prepare($query);
+	$stmt->bindParam($search_field, $search_text, PDO::PARAM_STR);
+	$executed = $stmt->execute();
+	if($executed){return true;}else{return false;}
+
+}
 
 
 
