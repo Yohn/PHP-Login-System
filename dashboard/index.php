@@ -6,6 +6,14 @@ check_verified();
 
 
 
+
+$table="users";
+$search_field="email";
+$search_text="supa@hot.com";
+$return_field='verified_at';
+//$array=$ol->get_arrayPDO($table,$search_field,$search_text,$return_field);
+$array=$ol->get_arrayPDO($table,$search_field,$search_text);
+var_dump($array);
 ?>
 
 
@@ -25,7 +33,7 @@ check_verified();
                     <h6 class="mb-0 text-white lh-100">Admin Dashboard</h6>
                     <small>[Development in Progress]</small>
                 </div>
-            </div>    
+            </div>
                     <?php $ol->displat_useronline(); ?>
 
 

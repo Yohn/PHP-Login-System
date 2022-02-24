@@ -5,6 +5,7 @@ class Master {
 	protected $dbh;
 
 	var $numberOfUsers = 0;
+
 	var $timeoutSeconds = 900;//15mins till autodelete with refresh()
 
 	/** logfile path / name
@@ -20,13 +21,21 @@ class Master {
 	var $autodelete = false;
 
 	var $HTTP_REFERER	= "";
+
 	var $REQUEST_METHOD	= "";
+
 	var $HTTP_HOST	= "";
+
 	var $QUERY_STRING = "";
+
 	var $SERVER_PROTOCOL = "";
+
 	var $SCRIPT_NAME	= "";
+
 	var $ip	= false;
+
 	var $sess_id = false;
+
 	var $timestamp = "";
 
 	protected $db;
@@ -191,16 +200,7 @@ class Master {
 	public function getit($Requested_Array=array(),$key='',$length=254,$defaut=false){
     //Get or Post or Request or cookie, any Array, etc
     $temp="";
-    $temp=(isset($Requested_Array[$key])) ? strip_tags(trim($Requested_Array[$key])) : $defaut;
-    $temp=htmlspecialchars($temp, ENT_QUOTES, 'UTF-8');
-    $temp=substr($temp, 0, $length);
-    return $temp;
-  }
-
-	public function getit_tags($Requested_Array=array(),$key='',$length=254,$defaut=false){
-    //Get or Post or Request or cookie, any Array, etc
-    $temp="";
-    $temp=(isset($Requested_Array[$key])) ? trim($Requested_Array[$key]) : $defaut;
+    $temp=(isset($Requested_Array[$key])) ? trim(strip_tags($Requested_Array[$key])) : $defaut;
     $temp=htmlspecialchars($temp, ENT_QUOTES, 'UTF-8');
     $temp=substr($temp, 0, $length);
     return $temp;
@@ -358,6 +358,57 @@ class Master {
 			 //var_dump($query);
 			 return $query;
 	 }
+
+
+
+	 ///////////////////////////////////////////////////////////////////////////
+	 ///////////////////////////////////////////////////////////////////////////
+public function update_fieldPDO($table,$index_field,$index_value,$field_to_update,$data_to_update){
+		 $table=trim($table);$index_field=trim($index_field);$index_value=trim($index_value);$field_to_update=trim($field_to_update);$data_to_update=trim($data_to_update);
+	   $sql = "UPDATE $table SET $field_to_update=? WHERE ".$index_field."=?";
+	   $stmt= $this->dbh->prepare($sql);
+	   $executed = $stmt->execute([$data_to_update, $index_value]);
+	   if($executed){return true;}else{return false;}
+	 return false;
+	 }
+	 ///////////////////////////////////////////////////////////////////////////
+	 ///////////////////////////////////////////////////////////////////////////
+public function get_fieldPDO($table,$search_field,$search_value,$return_field){
+		 $table=trim($table);$search_field=trim($search_field);$search_text=trim($search_text);$return_field=trim($return_field);
+		 $query='SELECT * FROM '.$table.' WHERE `'.$search_field.'` = :'.$search_field;
+	   $stmt = $this->dbh->prepare($query);
+	   $stmt->bindParam($search_field, $search_value , PDO::PARAM_STR, 64);
+	   $stmt->execute();
+	   while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+	     //$stmt = null;
+	      return $row[$return_field];
+	    }//end while
+	 return false;
+	 }
+	 ///////////////////////////////////////////////////////////////////////////
+	 ///////////////////////////////////////////////////////////////////////////
+public function get_arrayPDO($table,$search_field,$search_text){
+		 $table=trim($table);$search_field=trim($search_field);$search_text=trim($search_text);
+	   $query='SELECT * FROM '.$table.' WHERE `'.$search_field.'` LIKE :'.$search_field;
+	   echo '  '.$query;
+	   $stmt = $this->dbh->prepare($query);
+	   $stmt->bindParam($search_field, $search_text , PDO::PARAM_STR, 64);
+	   $stmt->execute();
+	   while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+	     //$stmt = null;
+	      return $row;
+	    }//end while
+	 return false;
+	 }
+
+
+
+
+
+
+
+
+
 
 	 public function addDB()
      {
