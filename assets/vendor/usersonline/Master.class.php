@@ -445,9 +445,9 @@ public function get_arrayPDO($table,$search_field,$search_text){
 
 	 */
 	 ///////////////////////////////////////////////////////////////////////////
-public function delete_itPDO($table,$search_field,$search_text){
+public function delete_itPDO($table,$search_field,$search_text,$q=""){
 	$table=trim($table);$search_field=trim($search_field);$search_text=trim($search_text);
-	$query='DELETE FROM '.$table.' WHERE `'.$search_field.'` = :'.$search_field;
+	$query='DELETE FROM '.$table.' WHERE `'.$search_field.'` = :'.$search_field .' '. $q;
 	$stmt = $this->dbh->prepare($query);
 	$stmt->bindParam($search_field, $search_text, PDO::PARAM_STR);
 	$executed = $stmt->execute();

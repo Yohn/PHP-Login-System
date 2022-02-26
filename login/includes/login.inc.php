@@ -92,18 +92,25 @@ else {
         }
         else {
 
-                $pwdCheck = password_verify($password, $row['password']);
+              $pwdCheck = password_verify($password, $row['password']);
 
-                if ($pwdCheck == false) {
+              if ($pwdCheck == false) {
 
-                    $_SESSION['ERRORS']['wrongpassword'] = 'wrong password';
-                    header("Location: ../");
-                    exit();
-                    }
-                else if ($pwdCheck == true) {
+                  $_SESSION['ERRORS']['wrongpassword'] = 'wrong password';
+                  header("Location: ../");
+                  exit();
+                  }
+              else if ($pwdCheck == true) {
 
                     if (!session_id()) @session_start();
 
+                    //$abuseConfidenceScore = $row['abuseConfidenceScore'];
+                    $abuseConfidenceScore = 0;
+                    if($abuseConfidenceScore > 10){
+                        $_SESSION['ERRORS']['abuseConfidenceScore'] = 'Spammer Alert';
+                        header("Location: ../../register");
+                        exit();
+                    }
 
                     if($row['verified_at'] != NULL){
 
@@ -149,7 +156,7 @@ else {
                         $table='auth_tokens';
                         $search_field='user_email';
                         $search_text=$_SESSION['email'];
-                        $err=$ol->delete_itPDO($table,$search_field,$search_text);
+                        $err=$ol->delete_itPDO($table,$search_field,$search_text,"AND auth_type='remember_me'");
 
                         setcookie(
                             'rememberme',
@@ -165,7 +172,7 @@ else {
                         $remember_me="remember_me";
                         $email=$_SESSION['email'];
                         $token=password_hash($token, PASSWORD_DEFAULT);
-                        $d=date('Y-m-d\TH:i:s', time() + 864000);
+                        $expires_at=date('Y-m-d\TH:i:s', time() + 864000);
                         $stmt = $dbh->prepare("insert into auth_tokens (`user_email`, `auth_type`, `selector`, `token`, `created_at`, `expires_at` ) values (:user_email, :auth_type, :selector, :token, :created_at, :expires_at )");
                            //$stmt->bindParam(':id', $id, PDO::PARAM_STR, 64);
                            $stmt->bindParam(':user_email', $email, PDO::PARAM_STR, 64);
@@ -173,7 +180,7 @@ else {
                            $stmt->bindParam(':selector', $selector, PDO::PARAM_STR, 64);
                            $stmt->bindParam(':token',$token , PDO::PARAM_STR, 64);
                            $stmt->bindParam(':created_at', $created_at, PDO::PARAM_STR, 64);
-                           $stmt->bindParam(':expires_at', $d, PDO::PARAM_STR, 64);
+                           $stmt->bindParam(':expires_at', $expires_at, PDO::PARAM_STR, 64);
                         $executed = $stmt->execute();
                         if($executed){}else{
                             $_SESSION['ERRORS']['insert_failed'] = 'DB ERROR';
@@ -182,11 +189,13 @@ else {
                             }
 
                     }//end remember me
-//http://localhost/php-guestbook.com/github/PHP-Login-System/login/includes/APP_URL/dashboard/
                     header("Location: ".APP_URL."/dashboard/");
                     exit();
-                }// end else if ($pwdCheck == true)
-            }// end else we have a username
-        }// end empty($username) || empty($password
+            }// end else if ($pwdCheck == true)
+      }// end else we have a username
+}// end empty($username) || empty($password
 
 }//end _POST['loginsubmit
+$_SESSION['ERRORS']['strange'] = 'Not Suppose to be here!';
+header("Location: ../");
+exit();
