@@ -44,9 +44,15 @@ class Master {
 				$this->timestamp=time();
 		    return $this->timestamp;
     }
-    public function setSess_id(){
-        $this->sess_id = session_id();
-				return $this->sess_id;
+		public function setSess_id(){
+		if (!session_id()){
+			if(session_start()){$this->sess_id = session_id();}else{$this->sess_id =  'sessioncreaterror'; return $this->sess_id;}
+		}
+		else{
+			$this->sess_id = session_id();
+		}
+    //    $this->sess_id = session_id();
+		return $this->sess_id;
     }
 
     public function setSCRIPT_NAME(){
@@ -69,8 +75,9 @@ class Master {
 				$this->REQUEST_METHOD=$this->getit($_SERVER,'REQUEST_METHOD',254,'CLI');
 				return $this->REQUEST_METHOD;
     }
-    public function setHTTP_REFERER(){
-				$this->HTTP_REFERER=$this->getit($_SERVER,'HTTP_REFERER',254,'CLI');
+		public function setHTTP_REFERER(){
+				$tmp=getcwd();
+				$this->HTTP_REFERER=$this->getit($_SERVER,'HTTP_REFERER',254,$tmp);
         return $this->HTTP_REFERER;
     }
     public function setIP(){
@@ -78,7 +85,11 @@ class Master {
     }
 		public function setnumberOfUsers() {
 				$timer=time()-$this->timeoutSeconds;
-				$this->numberOfUsers = $this->dbh->query('select count(*) from usersonline WHERE timestamp > '.$timer.' ')->fetchColumn();
+
+//$this->numberOfUsers = $this->dbh->query('select count(DISTINCT ip) from usersonline WHERE timestamp > '.$timer.' ')->fetchColumn();
+$this->numberOfUsers = $this->dbh->query('select count(DISTINCT sess_id) from usersonline WHERE timestamp > '.$timer.' ')->fetchColumn();
+
+
 				return $this->numberOfUsers;
     }
 		public function getnumberOfUsers() {
@@ -382,6 +393,7 @@ public function update_fieldPDO($table,$index_field,$index_value,$field_to_updat
 		 $table=trim($table);$index_field=trim($index_field);$index_value=trim($index_value);$field_to_update=trim($field_to_update);$data_to_update=trim($data_to_update);
 	   $sql = "UPDATE $table SET $field_to_update=? WHERE ".$index_field."=?";
 	   $stmt= $this->dbh->prepare($sql);
+		 if($stmt==false){return false;}
 	   $stmt->execute([$data_to_update, $index_value]);
 	   return $stmt->rowCount();
 	 }

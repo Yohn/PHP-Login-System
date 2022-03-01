@@ -5,7 +5,7 @@ if (!defined('APP_ORGANIZATION'))               define('APP_ORGANIZATION', 'KLiK
 if (!defined('APP_OWNER'))                      define('APP_OWNER', 'msaad1999');
 if (!defined('APP_DESCRIPTION'))                define('APP_DESCRIPTION', 'Embeddable PHP Login System');
 if (!defined('APP_URL'))                        define('APP_URL', 'http://192.168.0.101/php-guestbook.com/github/PHP-Login-System');
-if (!defined('APP_PATHS'))                       define('APP_PATHS', 'E:/php-guestbook.com/github/PHP-Login-System'); //No slashes on end
+if (!defined('APP_PATH'))                       define('APP_PATH', 'E:/php-guestbook.com/github/PHP-Login-System'); //No slashes on end
 
 if (!defined('APP_PRIVATE_PATH'))               define('APP_PRIVATE_PATH', 'E:/xampp/private'); //No slashes on end
 

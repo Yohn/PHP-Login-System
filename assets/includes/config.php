@@ -1,7 +1,7 @@
 <?php
 // Start a Session
 if (!session_id()) @session_start();
-require_once('E:/php-guestbook.com/github/PHP-Login-System/assets/setup/env.php');
+require_once('../assets/setup/env.php');
 
 //
 //
@@ -15,10 +15,10 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //
 //
-require_once(APP_PATHS.'/assets/setup/db.inc.php');
-require_once(APP_PATHS.'/assets/includes/auth_functions.php');
-require_once(APP_PATHS.'/assets/includes/security_functions.php');
-require_once(APP_PATHS.'/assets/vendor/usersonline/Master.class.php');
+require_once(APP_PATH.'/assets/setup/db.inc.php');
+require_once(APP_PATH.'/assets/includes/auth_functions.php');
+require_once(APP_PATH.'/assets/includes/security_functions.php');
+require_once(APP_PATH.'/assets/vendor/usersonline/Master.class.php');
 $ol=new Master();
 $dbh=$ol->dbh();
  ?>

@@ -1,5 +1,5 @@
 <?php
-require_once("E:/php-guestbook.com/github/PHP-Login-System/assets/includes/config.php");
+require_once("../assets/includes/config.php");
 
 check_logged_out();
 
