@@ -76,6 +76,13 @@ if (!defined('MAIL_PASSWORD'))                  define('MAIL_PASSWORD', 'example
 if (!defined('MAIL_ENCRYPTION'))                define('MAIL_ENCRYPTION', 'ssl');
 if (!defined('MAIL_PORT'))                      define('MAIL_PORT', 465);
 ```
+3. Install dependencies with Composer
+
+```php
+ composer update
+
+```
+
 
 ### Existing Account(s)
 The database already contains a sample account to test things out with. Use that or head over to the signup page and start making new accounts.
