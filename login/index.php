@@ -3,6 +3,13 @@
 define('TITLE', "Login");
 include '../assets/layouts/header.php';
 check_logged_out();
+
+echo APP_PATH.'<BR>';
+echo getcwd();
+file_put_contents(APP_PRIVATE_PATH.'/logs/PDOErrors.txt', 'e->getMessage()\n', FILE_APPEND);
+if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+  echo "<br>IP : ".$_SERVER["REMOTE_ADDR"];}
+
 ?>
 
 
@@ -68,12 +75,12 @@ check_logged_out();
                 <p class="mt-4 mb-3 text-muted text-center">
                     <a href="https://github.com/msaad1999/PHP-Login-System" target="_blank">
                         Login System
-                    </a> | 
+                    </a> |
                     <a href="https://github.com/msaad1999/PHP-Login-System/blob/master/LICENSE" target="_blank">
                         MIT License
                     </a>
                 </p>
-                
+
             </form>
         </div>
         <div class="col-sm-4">
