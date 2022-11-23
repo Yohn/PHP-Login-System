@@ -1,0 +1,34 @@
+{
+    "name": "msaad1999/PHP-Login-System",
+    "description": "PHP-Login-System",
+    "type": "project",
+    "authors": [
+        {
+            "name": "msaad1999"
+        }
+    ],
+	"config": {
+    	"vendor-dir": "assets/vendor"
+	},
+    "require": {"phpmailer/phpmailer": "^6.5",
+        "twbs/bootstrap": "^4.3",
+        "components/font-awesome": "^5.12", 
+        "components/jquery": "3.4.1",
+        "andcarpi/laravel-popper": "^0.9.4"},
+	 
+
+   "scripts": {
+        "post-update-cmd": [
+            
+            "cp -R  assets/vendor/phpmailer/phpmailer assets/vendor/PHPMailer",
+            "cp -R assets/vendor/twbs/bootstrap/dist assets/vendor/bootstrap",
+            "rm -rf assets/vendor/twbs",
+            "cp -R assets/vendor/components/font-awesome assets/vendor/fontawesome",
+            "rm -rf assets/vendor/components/font-awesome",
+            "cp  assets/vendor/components/jquery/jquery.min.js assets/vendor/js/jquery.min.js",
+	    "rm -rf assets/vendor/components",
+            "cp  assets/vendor/andcarpi/laravel-popper/resources/js/popper.min.js assets/vendor/js/popper.min.js",
+	    "rm -rf assets/vendor/andcarpi", "rm -rf assets/vendor/phpmailer"
+        ]
+    }
+}
